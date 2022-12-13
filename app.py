@@ -10,8 +10,6 @@ import numpy as np
 st.title("Hello!")
 
 new_model2 = keras.models.load_model('tf2model.h5')
-new_model2.compile('Adam', loss='BinaryCrossentropy', metrics=[
-                   tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
 
 
 def load_wav_16k_mono(filename):
@@ -42,6 +40,9 @@ def predict_func(input_wav):
     return pre_input
 
 
+new_model2.compile('Adam', loss='BinaryCrossentropy', metrics=[
+                   tf.keras.metrics.Recall(), tf.keras.metrics.Precision()])
+
 crc = os.getcwd()
 
 
@@ -50,7 +51,7 @@ sound = st.file_uploader(
 
 
 if sound is not None:
-    with open(sound.name, "wb") as f:
+    with open("target.wav", "wb") as f:
         f.write(sound.getbuffer())
     if sound.type == "audio/mpeg":
         src = os.path.join(crc, sound.name)
@@ -61,3 +62,13 @@ if sound is not None:
 
 if sound:
     st.write("Type : ", sound.type)
+
+
+# process button
+Start = st.button("Start Prediction")
+
+if Start:
+
+    a = predict_func("target.wav")
+    st.write(a)
+    Start = False
