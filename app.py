@@ -47,18 +47,19 @@ crc = os.getcwd()
 
 
 sound = st.file_uploader(
-    "Sound File", type=["wav", "mp3"], accept_multiple_files=False)
+    "Sound File", type=["wav"], accept_multiple_files=False)
 
 
 if sound is not None:
+    """if sound.type == "audio/mpeg":
+        with open("toWav.mp3", "wb") as f:
+            f.write(sound.getbuffer())
+        src = "toWav.mp3"
+        wavSound = AudioSegment.from_mp3(
+            src).export("target.wav", format="wav")
+    else:"""
     with open("target.wav", "wb") as f:
         f.write(sound.getbuffer())
-    if sound.type == "audio/mpeg":
-        src = os.path.join(crc, sound.name)
-        lenght = len(src)
-        dst = os.path.join(crc, src[:lenght-4] + ".wav")
-        wavSound = AudioSegment.from_mp3(src)
-        wavSound.export(dst, format="wav")
 
 if sound:
     st.write("Type : ", sound.type)
@@ -66,9 +67,11 @@ if sound:
 
 # process button
 Start = st.button("Start Prediction")
+if sound is not None:
+    if Start:
 
-if Start:
-
-    a = predict_func("target.wav")
-    st.write(a)
+        a = predict_func("target.wav")
+        st.write(a)
+        Start = False
+elif (Start == True) & (sound is None):
     Start = False
