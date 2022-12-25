@@ -7,6 +7,10 @@ import keras
 from tensorflow.keras.models import Model
 import tensorflow_io as tfio
 import numpy as np
+import download.dow as dow
+import download.auth as auth
+import validators
+
 st.title("Hello!")
 
 new_model2 = keras.models.load_model('tf2model.h5')
@@ -75,3 +79,25 @@ if sound is not None:
         Start = False
 elif (Start == True) & (sound is None):
     Start = False
+
+st.write("or")
+
+st.title("Download from Google Drive by URL")
+
+URL = st.text_input("Google Drive Shareable URL")
+
+from_URL = st.button("Start analyze")
+
+if (URL is not None) & (URL != ""):
+    if validators.url(URL) != True:
+        st.write("Invalid URL")
+    elif validators.url(URL) == True:
+
+        # URL STRING TO ADDRESS
+
+        FinalURL = URL.split("/")
+
+        FinalURL = FinalURL[5]
+
+        if from_URL == True:
+            dow.downloadFile(FinalURL, "test.wav")
