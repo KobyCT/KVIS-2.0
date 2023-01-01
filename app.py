@@ -11,7 +11,7 @@ import download.dow as dow
 import download.auth as auth
 import validators
 
-st.title("Hello!")
+st.title("Artificial Intelligence for Detecting Water flow Using Audio Watermark")
 
 new_model2 = keras.models.load_model('tf2model.h5')
 
@@ -49,6 +49,8 @@ new_model2.compile('Adam', loss='BinaryCrossentropy', metrics=[
 
 crc = os.getcwd()
 
+st.title("Using local file")
+
 
 sound = st.file_uploader(
     "Sound File", type=["wav"], accept_multiple_files=False)
@@ -84,7 +86,7 @@ st.write("or")
 
 st.title("Download from Google Drive by URL")
 
-URL = st.text_input("Google Drive Shareable URL")
+URL = st.text_input("Google Drive Sharable URL")
 
 from_URL = st.button("Start analyze")
 
@@ -100,4 +102,10 @@ if (URL is not None) & (URL != ""):
         FinalURL = FinalURL[5]
 
         if from_URL == True:
-            dow.downloadFile(FinalURL, "test.wav")
+            dow.downloadFile(FinalURL, "target.wav")
+
+            a = predict_func("target.wav")
+
+            st.write(a)
+
+            from_URL = False
