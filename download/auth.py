@@ -28,7 +28,7 @@ class auth:
             Credentials, the obtained credential.
         """
         cwd_dir = os.getcwd()
-        credential_dir = r"C:\Users\ChinT\KVIS-2.0\download\.credentials"
+        credential_dir = r"\.credentials"
         if not os.path.exists(credential_dir):
             os.makedirs(credential_dir)
         credential_path = os.path.join(credential_dir,
